@@ -1,32 +1,44 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <nav-bar ref="nav" v-if="isShow"/>
+    <tab-bar ref="tab" v-if="isShow"/>
+    <loading/>
     <router-view/>
+    <play-bar/>
   </div>
 </template>
 
+<script>
+import NavBar from 'components/common/navbar/NavBar'
+import TabBar from 'components/common/tabbar/TabBar'
+import PlayBar from 'components/content/playbar/PlayBar'
+import Loading from 'components/common/loading/Loading'
+
+export default {
+  name: 'App',
+  components: {
+    NavBar,
+    TabBar,
+    PlayBar,
+    Loading
+  },
+  data() {
+    return {
+      isShow: true,
+    }
+  },
+  watch: {
+    '$route'(to, from) {
+      if(to.path == '/play'||to.path == '/comment'||to.path == '/playlist') {
+        this.isShow = false
+      }else {
+        this.isShow = true
+      }
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+@import '~assets/css/base.css';
 </style>
